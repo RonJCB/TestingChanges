@@ -2,7 +2,7 @@ from sqlmodel import Field, SQLModel,Relationship
 from typing import Optional
 
 
-class UserExercise(SQLModel, table =True):
+class UserRoutine(SQLModel, table =True):
     routine_id: int = Field(foreign_key="routine.id", primary_key = True)#
     exercise_id: int = Field(foreign_key="exercise.id", primary_key = True)
 
@@ -33,11 +33,12 @@ class MealRecipe(SQLModel, table = True):
 
 class Meal(SQLModel, table = True):
     id:int = Field(primary_key = True)
+    name:str
     recipes: list["Recipe"] = Relationship(back_populates="meals",link_model=MealRecipe   )
 
 class Recipe(SQLModel, table = True):
     id:int = Field(primary_key = True)
-    name:Optional[str]
+    name:str
     calories:float
     protein_g:float
     serving_size_g:Optional[float]
