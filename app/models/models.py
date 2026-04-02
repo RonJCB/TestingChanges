@@ -3,16 +3,15 @@ from typing import Optional
 from app.models.user import User
 
 class UserExercise(SQLModel, table =True):
-    id:int = Field(primary_key = True)
-    routine_id: Optional[int] = Field(foreign_key="routine.id")#
-    exercise_id: Optional[int] = Field(foreign_key="exercise.id")
+    routine_id: int = Field(foreign_key="routine.id", primary_key = True)#
+    exercise_id: int = Field(foreign_key="exercise.id", primary_key = True)
 
 class Routine(SQLModel, table = True):
     id:int = Field(primary_key = True)
-    exercises:list["Excercise"] = Relationship(back_populates = "routines",
+    exercises:list["Exercise"] = Relationship(back_populates = "routines",
                                                link_model = UserExercise)
 
-class Excercise(SQLModel, table = True):
+class Exercise(SQLModel, table = True):
     id:int = Field(primary_key = True)
     name:str
     type:str
@@ -28,13 +27,13 @@ class Excercise(SQLModel, table = True):
 
 
     
-class userMeal(SQLModel, table = True):
-    user_id:int = Field(foreign_key = "user.id", primary_key=True)
+class MealRecipe(SQLModel, table = True):
+    recipe_id:int = Field(foreign_key = "recipe.id", primary_key=True)
     meal_id:int = Field(foreign_key = "meal.id", primary_key=True)
 
 class Meal(SQLModel, table = True):
     id:int = Field(primary_key = True)
-    recipes: list["Recipe"] = Relationship(back_populates="meals",link_model=userMeal   )
+    recipes: list["Recipe"] = Relationship(back_populates="meals",link_model=MealRecipe   )
 
 class Recipe(SQLModel, table = True):
     id:int = Field(primary_key = True)
@@ -50,5 +49,5 @@ class Recipe(SQLModel, table = True):
     carb_total_g:Optional[float]
     fiber_g:Optional[float]
     sugar_g:Optional[float]
-    meal: list["Meal"] = Relationship(back_populates="recipe",link_model=userMeal )
+    meals: list["Meal"] = Relationship(back_populates="recipes",link_model=MealRecipe )
     
