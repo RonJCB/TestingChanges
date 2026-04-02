@@ -1,7 +1,6 @@
-from sqlmodel import Field, SQLModel
+from sqlmodel import Field, SQLModel,Relationship
 from typing import Optional
 from pydantic import EmailStr
-from app.models.models import *
 
 class UserBase(SQLModel,):
     username: str = Field(index=True, unique=True)
