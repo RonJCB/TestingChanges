@@ -2,17 +2,19 @@ from sqlmodel import Field, SQLModel,Relationship
 from typing import Optional
 
 
+
 #NO LINK MODEL APPROACH FOR ROUTINEEXERCISE since attributes are added
 class RoutineExercise(SQLModel, table =True):
    routine_id: int = Field(foreign_key="routine.id", primary_key = True)#
    exercise_id: int = Field(foreign_key="exercise.id", primary_key = True)
-   sets: int
-   reps: int
-   rest_time: int
+   sets: int = 0
+   reps: int = 0
+   rest_time: int = 0
    routine: Optional["Routine"] = Relationship(back_populates="exercises")
    exercise: Optional["Exercise"] = Relationship(back_populates="routines")
 class Routine(SQLModel, table = True):
     id:int = Field(primary_key = True)
+    name:str
     user_id:int = Field(foreign_key = "user.id")
     user: Optional["User"] = Relationship(back_populates = "routines")
     exercises: list["RoutineExercise"] = Relationship(back_populates="routine")
@@ -29,7 +31,6 @@ class Exercise(SQLModel, table = True):
     equip3:Optional[str] 
     safety:Optional[str]
     routines:list["RoutineExercise"] =Relationship(back_populates = "exercise")
-
 
   #USES LINK MODEL APPROACH for just the 2 keys  no attributes
 class MealRecipe(SQLModel, table = True):
